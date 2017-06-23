@@ -1,0 +1,151 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Mon Feb 27 12:11:32 2012
+;; Desktop file format version 206
+;; Emacs version 23.3.50.1
+
+;; Global section:
+(setq tabbar-desktop-saved-tabsets '(("vm.c" "main.c" "vm.h" "bytecode.h" "bytecode.c" "varray.c" "frame.h" "constants.h" "varray.h" "value.h" "prim.c")))
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring '("SYSTEM_"))
+(setq regexp-search-ring nil)
+(setq register-alist '((48 . ">=0")))
+(setq file-name-history '("~/Cours/LI223/Programs/NativeVM3/" "~/Cours/LI223/Programs/NativeVM3/prim.c" "~/Cours/LI223/Programs/NativeVM3/varray.c" "~/Cours/LI223/Programs/NativeVM3/vm.c" "~/Cours/LI223/Programs/NativeVM3/varray.c" "~/Cours/LI223/Programs/NativeVM3/varray.h" "~/Cours/LI223/Programs/NativeVM3/vm.c" "~/Cours/LI223/Programs/NativeVM3/vm.h" "~/Cours/LI223/Programs/NativeVM3/main.c" "~/Cours/LI223/Programs/NativeVM3/vm.h" "~/Cours/LI223/Programs/NativeVM3/main.c" "~/Cours/LI223/Programs/NativeVM3/vm.c" "~/Cours/LI223/Programs/NativeVM3/value.h" "~/Cours/LI223/Programs/NativeVM3/vm.c" "~/Cours/LI223/Programs/NativeVM3/varray.c" "~/Cours/LI223/Programs/NativeVM3/varray.h" "~/Cours/LI223/Programs/NativeVM3/vm.c" "~/Cours/LI223/Programs/NativeVM3/main.c" "~/Cours/LI223/Programs/NativeVM3/bytecode.c" "~/Cours/LI223/Programs/NativeVM3/vm.c" "~/Cours/LI223/Programs/NativeVM3/main.c" "~/Cours/LI223/Programs/NativeVM3/vm.c" "~/Cours/LI223/Programs/NativeVM3/constants.h" "~/Cours/LI223/Programs/NativeVM3/frame.h" "~/Cours/LI223/Programs/NativeVM3/main.c" "~/Cours/LI223/Programs/NativeVM3/varray.c" "~/Cours/LI223/Programs/NativeVM3/bytecode.c" "~/Cours/LI223/Programs/NativeVM3/bytecode.h" "~/Cours/LI223/Programs/NativeVM3/bytecode.c" "~/Cours/LI223/Programs/NativeVM3/main.c"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 206
+  "/Users/fredericpeschanski/Cours/LI223/Programs/NativeVM3/prim.c"
+  "prim.c"
+  'c-mode
+  '(abbrev-mode)
+  204
+  '(204 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/fredericpeschanski/Cours/LI223/Programs/NativeVM3/varray.c"
+  "varray.c"
+  'c-mode
+  '(abbrev-mode)
+  1294
+  '(1294 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/fredericpeschanski/Cours/LI223/Programs/NativeVM3/vm.c"
+  "vm.c"
+  'c-mode
+  '(abbrev-mode)
+  6978
+  '(7011 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/fredericpeschanski/Cours/LI223/Programs/NativeVM3/varray.h"
+  "varray.h"
+  'c-mode
+  '(abbrev-mode)
+  1742
+  '(1699 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/fredericpeschanski/Cours/LI223/Programs/NativeVM3/frame.h"
+  "frame.h"
+  'c-mode
+  '(abbrev-mode)
+  204
+  '(204 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/fredericpeschanski/Cours/LI223/Programs/NativeVM3/vm.h"
+  "vm.h"
+  'c-mode
+  '(abbrev-mode)
+  1219
+  '(1215 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/fredericpeschanski/Cours/LI223/Programs/NativeVM3/main.c"
+  "main.c"
+  'c-mode
+  '(abbrev-mode)
+  3192
+  '(3200 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/fredericpeschanski/Cours/LI223/Programs/NativeVM3/value.h"
+  "value.h"
+  'c-mode
+  '(abbrev-mode)
+  2106
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/fredericpeschanski/Cours/LI223/Programs/NativeVM3/bytecode.c"
+  "bytecode.c"
+  'c-mode
+  '(abbrev-mode)
+  4756
+  '(4763 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/fredericpeschanski/Cours/LI223/Programs/NativeVM3/constants.h"
+  "constants.h"
+  'c-mode
+  '(abbrev-mode)
+  587
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/fredericpeschanski/Cours/LI223/Programs/NativeVM3/bytecode.h"
+  "bytecode.h"
+  'c-mode
+  '(abbrev-mode)
+  1652
+  '(1649 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8-unix)))
+
+(desktop-create-buffer 206
+  "/Users/fredericpeschanski/Library/Application Support/Aquamacs Emacs/scratch buffer"
+  "*scratch*"
+  'text-mode
+  '(smart-spacing-mode)
+  1
+  '(nil nil)
+  nil
+  nil
+  '((buffer-file-coding-system . utf-8)))
+

@@ -1,0 +1,99 @@
+<project name="jcompiler" default="compile" basedir=".">
+    <description>
+       Compilateur pour un langage Javascript-like
+    </description>
+  <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="lib" location="lib"/>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}/classes"/>
+  </target>
+
+  <taskdef classname="jflex.anttask.JFlexTask" name="jflex"
+           classpath="${lib}/jflex-1.6.1.jar" />
+
+  <taskdef name="cup"
+           classname="java_cup.anttask.CUPTask"
+           classpath="${lib}/java-cup-11b.jar"
+           />
+
+  <target name="lexer" depends="init"
+          description="Generate the lexer.">
+
+    <jflex file="${src}/microjs/jcompiler/frontend/lexer/lexer.flex"
+           destdir="${build}/gen"
+           dot="off" />
+  </target>
+
+
+  <target name="parser" depends="lexer"
+          description="generate the parser">
+    <cup srcfile="${src}/microjs/jcompiler/frontend/parser/parser.cup"
+         destdir="${build}/gen"
+    	 locations="true"
+         expect="8"
+         force="true"
+    />
+  </target>
+
+  <target name="compile" depends="parser"
+        description="compile the source " >
+
+    <javac debug="true" srcdir="${src}:${build}/gen" excludes="" 
+    	destdir="${build}/classes" includeantruntime="false"
+        classpath="${lib}/java-cup-11b-runtime.jar"/>
+  </target>
+
+  <target name="run" depends="compile"
+          description="run compiler">
+    <echo>================ Run Object Main ================</echo>
+    <java classname="microjs.jcompiler.compiler.Main"
+          classpath="${build}/classes:${lib}/java-cup-11b-runtime.jar">
+    	<arg line="-parse ./tests/function.js"/>
+    </java>
+  </target>
+
+  <target name="dist" depends="init,clean"
+        description="Generer la distribution" >
+    <!-- tout mettre dans l'archive -->
+    <jar basedir=".." jarfile="../microjs-jcompiler-${DSTAMP}.jar"
+    includes="JCompiler/**/*" excludes="**/CVS"/>
+  </target>
+
+  <target name="uberjar" depends="compile">
+    <jar destfile="jcompiler.jar">
+    <fileset dir="${build}/classes" includes="**/*.class" />
+      <restrict>
+     <name name="**/*.class"/>
+     <archives>
+       <zips>
+         <fileset dir="${lib}" includes="**/java-cup-11b-runtime.jar"/>
+       </zips>
+     </archives>
+    </restrict>
+      <manifest>
+        <attribute name="Main-Class" value="microjs.jcompiler.main.Main"/>
+      </manifest>
+    </jar>
+  </target>
+  
+  <target name="clean"
+        description="clean up" >	
+	<echo>================ Removing temporary files... ================</echo>
+        <delete verbose="true"> <!-- Remove all *~ files -->
+	   <fileset dir="${basedir}" defaultexcludes="no">
+         <include name="**/*~"/>
+         <include name="tests/*.bc"/>
+         <include name="tests/*.dot"/>
+           </fileset>
+        </delete>
+        <echo>================ Removing build directory ================</echo>    
+	<delete verbose="true" dir="${build}/classes"/>
+	<delete verbose="true" dir="${build}/gen/microjs"/>
+  </target>
+</project>

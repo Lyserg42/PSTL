@@ -1,0 +1,102 @@
+package microjs.jcompiler.frontend.parser;
+
+import java.util.List;
+import java.util.LinkedList;
+
+import java_cup.runtime.*;
+import microjs.jcompiler.frontend.lexer.Lexer;
+import microjs.jcompiler.frontend.ast.*;
+
+terminal SEMICOL, VAR, LET, EQ,
+         LPAREN, RPAREN, LCURLY, RCURLY,
+         LBRACKET, RBRACKET, IF, ELSE, COMMA, FUNCTION, LAMBDA,
+         PLUS, MINUS, TIMES, DIV, RETURN, EQEQ,
+         UMINUS, MOD, CONS, CAR, CDR, NIL, THREAD;
+
+terminal String IDENTIFIER;
+terminal Integer INT;
+terminal Boolean BOOL;
+
+non terminal Prog program;
+non terminal List<Statement> statements;
+non terminal Statement statement;
+non terminal Statement block_statement;
+non terminal Expr expr;
+
+non terminal List<Statement> block;
+
+non terminal List<String> parameters;
+
+non terminal List<Expr> arguments;
+
+precedence left PLUS, MINUS;
+precedence left TIMES, DIV, MOD;
+precedence left UMINUS;
+
+program ::=
+  statements:prog                {: RESULT = new Prog("", prog, progxleft, progxright); :}
+  ;
+  
+statements ::=
+  statement:st SEMICOL statements:sts  {: ((LinkedList<Statement>) sts).addFirst(st); RESULT=sts; :}
+  | LET:l IDENTIFIER:var EQ expr:e SEMICOL statements:sts  {: LinkedList<Statement> lsts = new LinkedList<Statement>();
+                                                              lsts.add(new Let(var, e, sts, lxleft, stsxright));
+                                                              RESULT = lsts; :}
+  | block_statement:st statements:sts  {: ((LinkedList<Statement>) sts).addFirst(st); RESULT=sts; :}
+  | /* empty */  {: RESULT = new LinkedList<Statement>(); :}
+  ;
+    
+statement ::=
+  | IDENTIFIER:id EQ expr:e {: RESULT = new Assign(id, e, idxleft, exright); :}
+  | VAR:v IDENTIFIER:var EQ expr:e  {: RESULT = new Var(var, e, vxleft, exright); :}
+  | expr:e {: RESULT = new VoidExpr(e, exleft, exright); :}
+  | RETURN:r expr:e {: RESULT = new Return(e, rxleft, exright); :}
+  ;
+  
+block_statement ::=
+  IF:i LPAREN expr:cond RPAREN block:thens ELSE block:elses
+             {: RESULT = new If(cond, thens, elses, ixleft, elsesxright); :}
+  | IF:i LPAREN expr:cond RPAREN block:thens
+             {: RESULT = new If(cond, thens, new LinkedList<Statement>(), ixleft, thensxright); :}
+  | FUNCTION:f IDENTIFIER:id LPAREN parameters:params RPAREN block:body
+             {: RESULT = new Function(id, params, body, fxleft, bodyxright); :}
+  ;
+
+block ::=
+  LCURLY statements:sts RCURLY {: RESULT = sts; :}
+  ; 
+  
+parameters ::=
+  IDENTIFIER:id COMMA parameters:params {: ((LinkedList<String>) params).addFirst(id); RESULT=params; :}
+  | IDENTIFIER:id {: LinkedList<String> tempList = new LinkedList<String>();
+                     tempList.add(id); RESULT = tempList; :}
+  | /* empty */   {: RESULT = new LinkedList<String>(); :}
+  ;
+  
+expr ::=
+  INT:n {: RESULT = new IntConst(n, nxleft, nxright); :}
+  | BOOL:b {: RESULT = new BoolConst(b, bxleft, bxright); :}
+  | expr:fun LPAREN arguments:args RPAREN
+          {: RESULT = new Funcall(fun, args, funxleft, argsxright); :}
+  | LAMBDA:l LPAREN parameters:params RPAREN block:body
+     {: RESULT = new Lambda(params, body, lxleft, bodyxright); :} 
+  | IDENTIFIER:var {: RESULT = new EVar(var, varxleft, varxright); :}
+  | expr:l PLUS expr:r {: RESULT = new BinOp("+", l, r, lxleft, rxright); :}
+  | expr:l MINUS expr:r {: RESULT = new BinOp("-", l, r, lxleft, rxright); :}
+  | expr:l TIMES expr:r {: RESULT = new BinOp("*", l, r, lxleft, rxright); :}
+  | expr:l DIV expr:r {: RESULT = new BinOp("/", l, r, lxleft, rxright); :}
+  | expr:l EQEQ expr:r {: RESULT = new BinOp("==", l, r, lxleft, rxright); :}
+  | LPAREN expr:e RPAREN {: RESULT = e; :}
+  | CONS:c LPAREN expr:l COMMA expr:r RPAREN {: RESULT = new Pair(l,r, cxleft,cxright); :}
+  | CAR:c LPAREN expr:e RPAREN {: RESULT = new Access("car", e, cxleft, cxright); :}
+  | CDR:c LPAREN expr:e RPAREN {: RESULT = new Access("cdr", e, cxleft, cxright); :}
+  | NIL:n {: RESULT = new Nil(nxleft, nxright); :}
+  | THREAD:t LPAREN expre:e RPAREN {: THREAD = new Thread(e, txleft, txright); :}
+  ;
+  
+arguments ::=
+  expr:e COMMA arguments:args {: ((LinkedList<Expr>) args).addFirst(e); RESULT = args; :}
+  | expr:e  {: LinkedList<Expr> tempList = new LinkedList<Expr>();
+               tempList.add(e); RESULT = tempList; :}
+  | /* empty */  {: RESULT = new LinkedList<Expr>(); :}  
+  ;  
