@@ -110,7 +110,7 @@ return { return symbol("RETURN", sym.RETURN); }
 
 [nil] { return symbol("NIL", sym.NIL); }
 
-[thread] { return symbol ("THREAD", sym.THREAD): }
+[thread] { return symbol ("THREAD", sym.THREAD); }
 
 {Identifier} { return symbol("IDENTIFIER", sym.IDENTIFIER, yytext()); }
 

@@ -63,6 +63,7 @@ public class PrimEnv {
 		primEnv.register(new Primitive("car", "Car", "P_CAR"));
 		primEnv.register(new Primitive("cdr", "Cdr", "P_CDR"));
 		primEnv.register(new Primitive("nil", "Nil", "P_NIL"));
+		primEnv.register(new Primitive("thread", "Thread", "P_THREAD"));
 		
 		return primEnv;
 	}

@@ -105,5 +105,8 @@ extern const char *type_names[];
 /** primitive nil */
 #define P_NIL 12
 
+/** primitive thread */
+#define P_THREAD 13
+
 /** Noms des primitives */
 extern const char *primitive_names[];

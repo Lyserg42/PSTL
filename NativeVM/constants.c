@@ -43,5 +43,6 @@ const char *primitive_names[] = {
   "car",
   "cdr",
   "nil",
+  "thread",
   "<unknown>"
 };

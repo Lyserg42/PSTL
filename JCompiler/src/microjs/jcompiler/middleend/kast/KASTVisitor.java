@@ -18,4 +18,5 @@ public interface KASTVisitor {
 	public void visit(KCall expr);
 	public void visit(KClosure expr);
 	public void visit(KNil expr);
+	public void visit(KThread expr);
 }

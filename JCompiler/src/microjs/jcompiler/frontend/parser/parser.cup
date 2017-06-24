@@ -91,7 +91,7 @@ expr ::=
   | CAR:c LPAREN expr:e RPAREN {: RESULT = new Access("car", e, cxleft, cxright); :}
   | CDR:c LPAREN expr:e RPAREN {: RESULT = new Access("cdr", e, cxleft, cxright); :}
   | NIL:n {: RESULT = new Nil(nxleft, nxright); :}
-  | THREAD:t LPAREN expre:e RPAREN {: THREAD = new Thread(e, txleft, txright); :}
+  | THREAD:t LPAREN IDENTIFIER:id COMMA arguments:args RPAREN {: RESULT = new MyThread(id, args, txleft, txright); :}
   ;
   
 arguments ::=
