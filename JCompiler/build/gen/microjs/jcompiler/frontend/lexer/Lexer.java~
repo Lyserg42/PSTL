@@ -731,7 +731,7 @@ public class Lexer implements java_cup.runtime.Scanner {
             }
           case 49: break;
           case 17: 
-            { return symbol ("THREAD", sym.THREAD):
+            { return symbol ("THREAD", sym.THREAD);
             }
           case 50: break;
           case 18: 

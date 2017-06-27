@@ -18,11 +18,14 @@ public abstract class Statement extends ASTNode {
 	
 	
 	protected static List<KStatement> expandStatements(List<Statement> stmts) {
-    	List<KStatement> kstmts = new ArrayList<KStatement>();
-    	for(Statement stmt : stmts) {
-    		kstmts.add(stmt.expand());
-    	}
-    	return kstmts;
+	    	List<KStatement> kstmts = new ArrayList<KStatement>();
+	    	for(Statement stmt : stmts) {
+			if(stmt != null){
+		    		kstmts.add(stmt.expand());
+			}
+			
+	    	}
+	    	return kstmts;
 	}
 	
 	protected void indent(StringBuilder buf, int level) {

@@ -110,7 +110,11 @@ return { return symbol("RETURN", sym.RETURN); }
 
 [nil] { return symbol("NIL", sym.NIL); }
 
-[thread] { return symbol ("THREAD", sym.THREAD); }
+[print] { return symbol("PRINT", sym.PRINT); }
+
+[th_create] { return symbol ("TH_CREATE", sym.TH_CREATE); }
+
+[th_join] {return symbol ("TH_JOIN", sym.TH_JOIN); }
 
 {Identifier} { return symbol("IDENTIFIER", sym.IDENTIFIER, yytext()); }
 

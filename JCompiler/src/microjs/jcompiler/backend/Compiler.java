@@ -23,6 +23,8 @@ import microjs.jcompiler.middleend.kast.KStatement;
 import microjs.jcompiler.middleend.kast.KTrue;
 import microjs.jcompiler.middleend.kast.KVar;
 import microjs.jcompiler.middleend.kast.KVoidExpr;
+import microjs.jcompiler.middleend.kast.KNil;
+
 
 public class Compiler implements KASTVisitor {
 	private Bytecode bytecode;
@@ -183,6 +185,11 @@ public class Compiler implements KASTVisitor {
 		// continuation
 		bytecode.label(contLbl);
 		bytecode.push(new Fun(funLbl));
+	}
+	
+	@Override
+	public void visit(KNil stmt){
+
 	}
 	
 	public class CompileError extends java.lang.Error {

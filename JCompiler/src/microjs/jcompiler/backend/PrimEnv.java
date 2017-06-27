@@ -63,7 +63,9 @@ public class PrimEnv {
 		primEnv.register(new Primitive("car", "Car", "P_CAR"));
 		primEnv.register(new Primitive("cdr", "Cdr", "P_CDR"));
 		primEnv.register(new Primitive("nil", "Nil", "P_NIL"));
-		primEnv.register(new Primitive("thread", "Thread", "P_THREAD"));
+		primEnv.register(new Primitive("print", "Print", "P_PRINT"));
+		primEnv.register(new Primitive("th_create", "Th_create", "P_TH_CREATE"));
+		primEnv.register(new Primitive("th_join", "Th_join", "P_TH_JOIN"));
 		
 		return primEnv;
 	}

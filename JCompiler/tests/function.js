@@ -1,8 +1,8 @@
-function fact(n) {
-    if(n == 0) {
+function fact(x) {
+    if(x == 0) {
         return 1;
     } else {
-        return n * (fact(n - 1));
+        return x * (fact(x - 1));
     };
 };
 

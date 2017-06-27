@@ -8,9 +8,9 @@ public class KNil extends KExpr {
 		super(startPos, endPos);
 	}
 
-    @Override
-    public void accept(KASTVisitor visitor) {
-    	visitor.visit(this);
-    }
+	@Override
+		public void accept(KASTVisitor visitor) {
+		visitor.visit(this);
+	}
 
 }

@@ -199,12 +199,12 @@ void value_set_cdr(struct _vm *vm, value_t *value, value_t *cdr) {
  * \param[in] in_cdr si 1 (true) alors on est dans un cdr, 0 (false) sinon
  */
 static void value_print_intern(value_t *value, int in_cdr) {
+  if(in_cdr) printf(", ");
   if(value->type == T_PAIR) {
 
     if(!in_cdr) printf("(");
     
     if(value->data.as_pair) {
-      if(in_cdr) printf(" ");
       value_print_intern(&(value->data.as_pair->car), 0);
       value_print_intern(&(value->data.as_pair->cdr), 1); // dans un cdr
     }
@@ -212,14 +212,18 @@ static void value_print_intern(value_t *value, int in_cdr) {
     if(!in_cdr) printf(")");
 
   } else {
-    if(in_cdr) printf(", ");
-
+    
     switch(value->type) {
     case T_UNIT: 
       printf("<unit>"); 
       break;
     case T_PRIM: 
-      printf("Primitive[%d]", value->data.as_int);
+      if (value->data.as_int == P_NIL){
+        printf("nil");
+      }      
+      else{
+        printf("Primitive[%d]", value->data.as_int);
+      }      
       break;
     case T_FUN: 
       printf("Closure@%d", value->data.as_closure.pc);
