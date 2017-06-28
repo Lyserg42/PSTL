@@ -191,15 +191,16 @@ public class parser extends java_cup.runtime.lr_parser {
     "\042\046\043\006\044\026\001\002\000\020\004\ufffa\010" +
     "\053\023\050\024\051\025\054\026\052\030\055\001\002" +
     "\000\004\042\141\001\002\000\004\020\142\001\002\000" +
-    "\034\010\015\011\uffdb\022\031\033\020\034\017\035\021" +
-    "\036\014\037\022\040\007\041\025\042\046\043\006\044" +
-    "\026\001\002\000\004\011\144\001\002\000\024\004\uffdf" +
-    "\010\uffdf\011\uffdf\020\uffdf\023\uffdf\024\uffdf\025\uffdf\026" +
-    "\uffdf\030\uffdf\001\002\000\052\002\ufffc\004\ufffb\005\030" +
-    "\006\023\010\015\013\ufffc\016\013\021\012\022\031\027" +
-    "\011\033\020\034\017\035\021\036\014\037\022\040\007" +
-    "\041\025\042\010\043\006\044\026\001\002\000\006\002" +
-    "\uffff\013\uffff\001\002" });
+    "\032\010\015\022\031\033\020\034\017\035\021\036\014" +
+    "\037\022\040\007\041\025\042\046\043\006\044\026\001" +
+    "\002\000\020\010\053\011\144\023\050\024\051\025\054" +
+    "\026\052\030\055\001\002\000\024\004\uffdf\010\uffdf\011" +
+    "\uffdf\020\uffdf\023\uffdf\024\uffdf\025\uffdf\026\uffdf\030\uffdf" +
+    "\001\002\000\052\002\ufffc\004\ufffb\005\030\006\023\010" +
+    "\015\013\ufffc\016\013\021\012\022\031\027\011\033\020" +
+    "\034\017\035\021\036\014\037\022\040\007\041\025\042" +
+    "\010\043\006\044\026\001\002\000\006\002\uffff\013\uffff" +
+    "\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -243,9 +244,9 @@ public class parser extends java_cup.runtime.lr_parser {
     "\001\000\004\010\131\001\001\000\002\001\001\000\004" +
     "\007\133\001\001\000\002\001\001\000\002\001\001\000" +
     "\004\006\136\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\006\006\060\011\142\001\001\000" +
-    "\002\001\001\000\002\001\001\000\012\003\145\004\003" +
-    "\005\023\006\004\001\001\000\002\001\001" });
+    "\000\002\001\001\000\004\006\142\001\001\000\002\001" +
+    "\001\000\002\001\001\000\012\003\145\004\003\005\023" +
+    "\006\004\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -805,7 +806,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 34: // expr ::= TH_CREATE LPAREN IDENTIFIER COMMA arguments RPAREN 
+          case 34: // expr ::= TH_CREATE LPAREN IDENTIFIER COMMA expr RPAREN 
             {
               Expr RESULT =null;
 		Location txleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$parser$stack.elementAt(CUP$parser$top-5)).xleft;
@@ -814,10 +815,10 @@ class CUP$parser$actions {
 		Location idxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).xleft;
 		Location idxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).xright;
 		String id = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
-		Location argsxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).xleft;
-		Location argsxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).xright;
-		List<Expr> args = (List<Expr>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		 RESULT = new Th_create(id, args, txleft, txright); 
+		Location argxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).xleft;
+		Location argxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).xright;
+		Expr arg = (Expr)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		 RESULT = new Th_create(id, arg, txleft, txright); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("expr",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

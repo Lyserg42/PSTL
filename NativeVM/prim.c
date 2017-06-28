@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <pthread.h>
 #include "vm.h"
 #include "constants.h"
 
@@ -233,6 +234,62 @@ void do_cdr_prim(varray_t *stack) {
   varray_set_top(stack, value_get_cdr(varray_top(stack)));  
 }
 
+void* vm_execute_aux(void * arg){
+	vm_execute(arg);
+}
+
+void do_th_create_prim(vm_t * vm, varray_t *stack){
+	int i,r;
+
+	//Initialisation de la vm qui va exécuter le thread
+	vm_t * vmth = init_vm(vm->program, vm->debug_vm, 0, DEFAULT_GC_FREQUENCY);
+	//Le tas est partagé par les deux vm
+	vmth->globs = vm->globs;
+	//gc ? TODO
+
+	value_t* fun = varray_top_at(stack, 0);
+	//value_t* arg = varray_top_at(stack, 2);
+
+        closure_t closure = value_closure_get(fun);
+	env_t *env = gc_alloc_env(vmth->gc, 1, closure.env);
+
+        // recopier l'argument de la pile vers l'environnement local
+        // de la fermeture
+	varray_set_at(env->content, 1,varray_top_at(vmth->stack, 1));
+
+	varray_popn(vm->stack, 2); // tout dépiler
+
+        // empiler une nouvelle call frame.
+	vmth->frame = frame_push(vmth->frame, env, vmth->stack->top, vmth->frame->pc);
+	vmth->frame->pc = closure.pc;
+
+	//Creation du thread POSIX
+	pthread_t thread;
+	pthread_create(&thread, NULL, &vm_execute_aux, (void*)&vmth);
+
+	//Stockage du pthread_t dans la vm initiale
+	vm->threads[vm->nbthreads] = thread;
+
+	//Association du pthread_t avec un entier
+	r = ++vm->nbthreads;
+
+	//Empilement de la valeur de retour
+	varray_pop(stack);
+	value_fill_int(varray_top(stack), r);
+	
+}
+
+void do_th_join_prim(vm_t * vm, varray_t *stack) {
+	value_t * t_num;
+	//Recupération de l'index ou est stocké le pthread_t
+	t_num = varray_top(stack);
+
+	//Join POSIX sur le pthread_t
+	pthread_join(vm->threads[t_num->data.as_int],NULL);
+
+	//Dépilement de l'argument
+	varray_pop(stack);
+}
 
 /** Exécution d'une primitive.
  * Les arguments sont sur la pile du cadre d'appel (frame) courant 
@@ -273,6 +330,14 @@ void execute_prim(vm_t * vm, varray_t *stack, int prim, int n) {
     // cdr
   case P_CDR:
     do_cdr_prim(stack); break;
+
+  case P_TH_CREATE:
+    do_th_create_prim(vm,stack);
+    break;
+
+  case P_TH_JOIN:
+    do_th_join_prim(vm,stack);
+    break;
     
     
   default:

@@ -8,8 +8,10 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <pthread.h>
 #include "vm.h"
 #include "constants.h"
+
 
 /** Initialisation de la machine virtuelle.
  * \param[in] program le programme en bytecode à exécuter.
@@ -44,7 +46,12 @@ vm_t * init_vm(program_t *program, int debug_vm, int debug_gc, int collection_fr
   
   // initialize GC
   vm->gc = init_gc(debug_gc, collection_frequency);
-  
+	
+
+  // initialize array of pthread_t
+  vm->nbthreads = 0;
+  vm->threads = malloc(sizeof(pthread_t)*NB_MAX_THREADS);
+
   return vm;
 }
 
@@ -93,7 +100,7 @@ void vm_execute_instr(vm_t *vm, int instr) {
     // dépiler le sommet de pile et le sauvegarder dans l'environnement local
   case I_STORE:
     env_store(vm->frame->env, 
-              vm_next(vm), 
+              vm_next(vm),
               varray_pop(vm->stack));
     break;
     

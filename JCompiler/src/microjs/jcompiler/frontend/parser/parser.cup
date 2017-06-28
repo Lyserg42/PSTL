@@ -92,7 +92,7 @@ expr ::=
   | CDR:c LPAREN expr:e RPAREN {: RESULT = new Access("cdr", e, cxleft, cxright); :}
   | NIL:n {: RESULT = new Nil(nxleft, nxright); :}
   | PRINT:p LPAREN expr:e RPAREN {: RESULT = new Print(e, pxleft, pxright); :} 
-  | TH_CREATE:t LPAREN IDENTIFIER:id COMMA arguments:args RPAREN {: RESULT = new Th_create(id, args, txleft, txright); :}
+  | TH_CREATE:t LPAREN IDENTIFIER:id COMMA expr:arg RPAREN {: RESULT = new Th_create(id, arg, txleft, txright); :}
   | TH_JOIN:t LPAREN expr:e RPAREN {: RESULT = new Th_join(e, txleft, txright); :} 
   ;
   

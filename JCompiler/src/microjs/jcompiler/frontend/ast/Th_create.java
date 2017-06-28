@@ -11,30 +11,25 @@ import microjs.jcompiler.utils.DotGraph;
 
 public class Th_create extends Expr {
     private String fun;
-    private List<Expr> arguments;
+    private Expr argument;
     
-    public Th_create(String fun, List<Expr> arguments, Location startPos, Location endPos) {
+    public Th_create(String fun, Expr argument, Location startPos, Location endPos) {
     	super(startPos, endPos);		
 		this.fun = fun;
-		this.arguments = arguments;
+		this.argument = argument;
     }
     
     @Override
     public KCall expand(){
 	    List<KExpr> kargs = new ArrayList<KExpr>();
 	    kargs.add(new KEVar(fun, getStartPos(), getEndPos()));
-	    kargs.addAll(Expr.expandExprs(arguments));
+	    kargs.add(argument.expand());
 	    return new KCall(new KEVar("th_create", getStartPos(), getEndPos()), kargs, getStartPos(), getEndPos());
     }
 
     @Override
     protected String buildDotGraph(DotGraph graph) {
-      	String callNode = graph.addNode("Th_create[" + fun.toString() + "]");
-	for(int i=0; i<arguments.size(); i++) {
-		Expr arg = arguments.get(i);
-		String argRoot = arg.buildDotGraph(graph);
-		graph.addEdge(callNode, argRoot, "arg[" + i + "]");
-	}
+      	String callNode = graph.addNode("Th_create[" + fun.toString() + "," + argument.toString() + "]");
 	return callNode;
     }
 
@@ -44,13 +39,7 @@ public class Th_create extends Expr {
 	buf.append(fun);
 	buf.append(", ");    	
     	String sep = "";
-    	for(Expr arg : arguments) {
-    		buf.append(sep);
-    		arg.prettyPrint(buf);
-    		if(sep.equals("")) {
-    			sep = ", ";
-    		}
-    	}
+	argument.prettyPrint(buf);
     	buf.append(")");
     }
 }

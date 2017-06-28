@@ -110,7 +110,7 @@ static void gc_sweep(gc_t * gc) {
 }
 
 
-/** Algorithme de récupération automatique de mémoire (Garbage Colletion).
+/** Algorithme de récupération automatique de mémoire (Garbage Collection).
  */
 void gc_collect(vm_t * vm) {
   if(vm->gc->debug_gc) {

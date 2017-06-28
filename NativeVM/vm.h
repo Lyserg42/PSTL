@@ -19,6 +19,7 @@
  * - les primitives (?)
  * - la zone de code
  * - le GC
+ * - Les pthread_t des thread actifs
  */
 
 #include "value.h"
@@ -35,6 +36,8 @@ typedef struct _vm {
   frame_t *frame; /*!< la fenêtre d'entrée */
   program_t *program;
   gc_t *gc;
+  int nbthreads;
+  pthread_t *threads;
 } vm_t;
 
 
@@ -47,6 +50,9 @@ typedef struct _vm {
 
 /** La fréquence de GC par défaut (en nombre d'instructions exécutées) */
 #define DEFAULT_GC_FREQUENCY 10000
+
+/* Le nombre maximum de threads simultanés */
+#define NB_MAX_THREADS 256
 
 /* Manipulation de l'état de la VM */
 
