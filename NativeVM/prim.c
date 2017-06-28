@@ -236,59 +236,61 @@ void do_cdr_prim(varray_t *stack) {
 
 void* vm_execute_aux(void * arg){
 	vm_execute(arg);
+	return NULL;
 }
 
 void do_th_create_prim(vm_t * vm, varray_t *stack){
 	int i,r;
 
 	//Initialisation de la vm qui va exécuter le thread
+	printf("Statut debug vm: %d\n",vm->debug_vm);
 	vm_t * vmth = init_vm(vm->program, vm->debug_vm, 0, DEFAULT_GC_FREQUENCY);
+	printf("Statut debug vmth: %d\n",vmth->debug_vm);
 	//Le tas est partagé par les deux vm
 	vmth->globs = vm->globs;
 	//gc ? TODO
-
-	value_t* fun = varray_top_at(stack, 0);
-	//value_t* arg = varray_top_at(stack, 2);
-
+	value_t* fun = varray_top(stack);
         closure_t closure = value_closure_get(fun);
 	env_t *env = gc_alloc_env(vmth->gc, 1, closure.env);
-
         // recopier l'argument de la pile vers l'environnement local
         // de la fermeture
-	varray_set_at(env->content, 1,varray_top_at(vmth->stack, 1));
-
+	varray_expandn(vmth->stack, 1);
+	varray_set_at(env->content, 0, varray_top(vmth->stack));
 	varray_popn(vm->stack, 2); // tout dépiler
-
         // empiler une nouvelle call frame.
 	vmth->frame = frame_push(vmth->frame, env, vmth->stack->top, vmth->frame->pc);
 	vmth->frame->pc = closure.pc;
 
 	//Creation du thread POSIX
 	pthread_t thread;
-	pthread_create(&thread, NULL, &vm_execute_aux, (void*)&vmth);
-
+	printf("Statut debug vmth: %d\n",vmth->debug_vm);
+	i = pthread_create(&thread, NULL, &vm_execute_aux, (void*)vmth);
+	if(i){	
+		printf("Erreur creation thread : -%d-\n",i);
+	}
 	//Stockage du pthread_t dans la vm initiale
 	vm->threads[vm->nbthreads] = thread;
-
 	//Association du pthread_t avec un entier
 	r = ++vm->nbthreads;
-
 	//Empilement de la valeur de retour
-	varray_pop(stack);
+	//varray_pop(stack);
+	varray_expandn(stack,1);
 	value_fill_int(varray_top(stack), r);
 	
 }
 
 void do_th_join_prim(vm_t * vm, varray_t *stack) {
+	int r=0;
 	value_t * t_num;
 	//Recupération de l'index ou est stocké le pthread_t
 	t_num = varray_top(stack);
-
 	//Join POSIX sur le pthread_t
-	pthread_join(vm->threads[t_num->data.as_int],NULL);
-
-	//Dépilement de l'argument
-	varray_pop(stack);
+	if(pthread_join(vm->threads[t_num->data.as_int-1],NULL)){
+		printf("Erreur join thread \n");	
+		r=1;
+	}
+	//Copie de la valeur de retour sur la pile
+	value_fill_int(varray_top(stack), r);
 }
 
 /** Exécution d'une primitive.
@@ -331,11 +333,11 @@ void execute_prim(vm_t * vm, varray_t *stack, int prim, int n) {
   case P_CDR:
     do_cdr_prim(stack); break;
 
-  case P_TH_CREATE:
+  case P_TCREATE:
     do_th_create_prim(vm,stack);
     break;
 
-  case P_TH_JOIN:
+  case P_TJOIN:
     do_th_join_prim(vm,stack);
     break;
     

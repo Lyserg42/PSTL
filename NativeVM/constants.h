@@ -108,11 +108,11 @@ extern const char *type_names[];
 /** primitive print */
 #define P_PRINT 13
 
-/** primitive th_create */
-#define P_TH_CREATE 14
+/** primitive tcreate */
+#define P_TCREATE 14
 
-/** primitive th_join */
-#define P_TH_JOIN 15
+/** primitive tjoin */
+#define P_TJOIN 15
 
 /** Noms des primitives */
 extern const char *primitive_names[];

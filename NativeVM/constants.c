@@ -44,7 +44,7 @@ const char *primitive_names[] = {
   "cdr",
   "nil",
   "print",
-  "th_create",
-  "th_join",
+  "tcreate",
+  "tjoin",
   "<unknown>"
 };

@@ -49,7 +49,7 @@ vm_t * init_vm(program_t *program, int debug_vm, int debug_gc, int collection_fr
 	
 
   // initialize array of pthread_t
-  vm->nbthreads = 0;
+  vm->nbthreads = 42;
   vm->threads = malloc(sizeof(pthread_t)*NB_MAX_THREADS);
 
   return vm;
@@ -255,9 +255,10 @@ void vm_execute_instr(vm_t *vm, int instr) {
  */
 void vm_execute(vm_t * vm) {
   unsigned int instr_counter = 0;
-
+  //printf("Statut debug : %d\n",vm->debug_vm);
   if(vm->debug_vm) {
     printf("Initial state:\n");
+    
     printf("  PC = %d\n",vm->frame->pc);
     printf("  Globals = "); varray_print(vm->globs);
     printf("\n");

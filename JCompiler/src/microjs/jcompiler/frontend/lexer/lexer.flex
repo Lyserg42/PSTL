@@ -112,9 +112,9 @@ return { return symbol("RETURN", sym.RETURN); }
 
 [print] { return symbol("PRINT", sym.PRINT); }
 
-[th_create] { return symbol ("TH_CREATE", sym.TH_CREATE); }
+[tcreate] { return symbol ("TCREATE", sym.TCREATE); }
 
-[th_join] {return symbol ("TH_JOIN", sym.TH_JOIN); }
+[tjoin] {return symbol ("TJOIN", sym.TJOIN); }
 
 {Identifier} { return symbol("IDENTIFIER", sym.IDENTIFIER, yytext()); }
 
