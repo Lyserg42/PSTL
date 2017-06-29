@@ -11,7 +11,7 @@ terminal SEMICOL, VAR, LET, EQ,
          LPAREN, RPAREN, LCURLY, RCURLY,
          LBRACKET, RBRACKET, IF, ELSE, COMMA, FUNCTION, LAMBDA,
          PLUS, MINUS, TIMES, DIV, RETURN, EQEQ,
-         UMINUS, MOD, CONS, CAR, CDR, NIL, PRINT, TCREATE, TJOIN;
+         UMINUS, MOD, CONS, CAR, CDR, NIL, TCREATE, TJOIN;
 
 terminal String IDENTIFIER;
 terminal Integer INT;
@@ -91,7 +91,6 @@ expr ::=
   | CAR:c LPAREN expr:e RPAREN {: RESULT = new Access("car", e, cxleft, cxright); :}
   | CDR:c LPAREN expr:e RPAREN {: RESULT = new Access("cdr", e, cxleft, cxright); :}
   | NIL:n {: RESULT = new Nil(nxleft, nxright); :}
-  | PRINT:p LPAREN expr:e RPAREN {: RESULT = new Print(e, pxleft, pxright); :} 
   | TCREATE:t LPAREN expr:fun COMMA expr:arg RPAREN {: RESULT = new Tcreate(fun, arg, txleft, txright); :}
   | TJOIN:t LPAREN expr:e RPAREN {: RESULT = new Tjoin(e, txleft, txright); :} 
   ;

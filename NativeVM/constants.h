@@ -105,14 +105,11 @@ extern const char *type_names[];
 /** primitive nil */
 #define P_NIL 12
 
-/** primitive print */
-#define P_PRINT 13
-
 /** primitive tcreate */
-#define P_TCREATE 14
+#define P_TCREATE 13
 
 /** primitive tjoin */
-#define P_TJOIN 15
+#define P_TJOIN 14
 
 /** Noms des primitives */
 extern const char *primitive_names[];

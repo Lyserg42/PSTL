@@ -110,8 +110,6 @@ return { return symbol("RETURN", sym.RETURN); }
 
 [nil] { return symbol("NIL", sym.NIL); }
 
-[print] { return symbol("PRINT", sym.PRINT); }
-
 [tcreate] { return symbol ("TCREATE", sym.TCREATE); }
 
 [tjoin] {return symbol ("TJOIN", sym.TJOIN); }

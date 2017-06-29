@@ -109,9 +109,6 @@ void varray_set_at(varray_t *varray, unsigned int n, value_t *value) {
  */
 value_t *varray_top_at(varray_t *varray, unsigned int n) {
   // précondition : l'index doit exister
-   if (n >= varray->top){
-  	printf("Erreur assert varray_top_at : %d <= %d\n",n,varray->top);
-  }
   assert(n < varray->top);
   return &varray->content[varray->top - n - 1];
 }

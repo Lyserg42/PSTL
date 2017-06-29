@@ -733,7 +733,7 @@ public class Lexer implements java_cup.runtime.Scanner {
             }
           case 51: break;
           case 17: 
-            { return symbol ("TH_CREATE", sym.TH_CREATE);
+            { return symbol ("TCREATE", sym.TCREATE);
             }
           case 52: break;
           case 18: 
@@ -765,7 +765,7 @@ public class Lexer implements java_cup.runtime.Scanner {
             }
           case 59: break;
           case 25: 
-            { return symbol ("TH_JOIN", sym.TH_JOIN);
+            { return symbol ("TJOIN", sym.TJOIN);
             }
           case 60: break;
           case 26: 

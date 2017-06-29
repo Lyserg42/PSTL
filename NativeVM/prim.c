@@ -241,29 +241,37 @@ void* vm_execute_aux(void * arg){
 
 void do_th_create_prim(vm_t * vm, varray_t *stack){
 	int i,r;
+	program_t * progthread = malloc(sizeof(program_t));
+	//Recopie du programme de la vm
+	progthread->bytecode = malloc(sizeof(int)*vm->program->size);
+	progthread->size = vm->program->size;
+	for(int i=0; i<vm->program->size; i++){
+		progthread->bytecode[i] = vm->program->bytecode[i];	
+	}
+	// On change le programme en remplacant l'appel a la primitive par l'appel a la fonction
+	progthread->bytecode[vm->frame->pc-5] = 6; //CALL
+	progthread->bytecode[vm->frame->pc-4] = 1; //1
+ 	//progthread->bytecode[vm->frame->pc-3] = 3; //POP
+	// Puis on lui dis d'ignorer le reste du programme une fois revenu de la fonction
+	progthread->size = vm->frame->pc-4;
 
+printf("Program vm. Size : %d pc : %d\n",vm->program->size, vm->frame->pc);
+bytecode_print(vm->program);
+printf("----------------------------\n");
+printf("Progthread. Size : %d\n",progthread->size);
+bytecode_print(progthread);
+	
 	//Initialisation de la vm qui va exécuter le thread
-	printf("Statut debug vm: %d\n",vm->debug_vm);
-	vm_t * vmth = init_vm(vm->program, vm->debug_vm, 0, DEFAULT_GC_FREQUENCY);
-	printf("Statut debug vmth: %d\n",vmth->debug_vm);
-	//Le tas est partagé par les deux vm
-	vmth->globs = vm->globs;
-	//gc ? TODO
-	value_t* fun = varray_top(stack);
-        closure_t closure = value_closure_get(fun);
-	env_t *env = gc_alloc_env(vmth->gc, 1, closure.env);
-        // recopier l'argument de la pile vers l'environnement local
-        // de la fermeture
-	varray_expandn(vmth->stack, 1);
-	varray_set_at(env->content, 0, varray_top(vmth->stack));
-	varray_popn(vm->stack, 2); // tout dépiler
-        // empiler une nouvelle call frame.
-	vmth->frame = frame_push(vmth->frame, env, vmth->stack->top, vmth->frame->pc);
-	vmth->frame->pc = closure.pc;
+	vm_t * vmth = init_vm(progthread, vm->debug_vm, 0, DEFAULT_GC_FREQUENCY);
 
+	//Le tas et le gc sont partagés par les deux vm
+	vmth->globs = vm->globs;
+	vmth->gc = vm->gc;
+	//On place le pointeur de pile de vmth pour re-executer la mise en pile des arguments
+	vmth->frame = frame_push(NULL, NULL, 0, vm->frame->pc-10);
+	
 	//Creation du thread POSIX
 	pthread_t thread;
-	printf("Statut debug vmth: %d\n",vmth->debug_vm);
 	i = pthread_create(&thread, NULL, &vm_execute_aux, (void*)vmth);
 	if(i){	
 		printf("Erreur creation thread : -%d-\n",i);
@@ -272,9 +280,9 @@ void do_th_create_prim(vm_t * vm, varray_t *stack){
 	vm->threads[vm->nbthreads] = thread;
 	//Association du pthread_t avec un entier
 	r = ++vm->nbthreads;
+	//Depilement des arguments
+	varray_popn(stack,1);
 	//Empilement de la valeur de retour
-	//varray_pop(stack);
-	varray_expandn(stack,1);
 	value_fill_int(varray_top(stack), r);
 	
 }
@@ -301,6 +309,7 @@ void do_th_join_prim(vm_t * vm, varray_t *stack) {
  * \param n le nombre d'arguments à dépiler.
  */
 void execute_prim(vm_t * vm, varray_t *stack, int prim, int n) {
+  /*printf("P_TCREATE : -%d- prim before switch -%d-",P_TCREATE,prim);*/
   switch(prim) {
     
     // Les fonctions arithmétiques sont traitées d'un coup.

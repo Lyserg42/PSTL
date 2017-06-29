@@ -49,7 +49,7 @@ vm_t * init_vm(program_t *program, int debug_vm, int debug_gc, int collection_fr
 	
 
   // initialize array of pthread_t
-  vm->nbthreads = 42;
+  vm->nbthreads = 0;
   vm->threads = malloc(sizeof(pthread_t)*NB_MAX_THREADS);
 
   return vm;

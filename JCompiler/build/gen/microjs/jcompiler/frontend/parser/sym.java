@@ -12,10 +12,10 @@ public class sym {
   public static final int MOD = 24;
   public static final int ELSE = 13;
   public static final int PLUS = 17;
-  public static final int INT = 33;
+  public static final int INT = 32;
   public static final int RPAREN = 7;
   public static final int RCURLY = 9;
-  public static final int IDENTIFIER = 32;
+  public static final int IDENTIFIER = 31;
   public static final int RETURN = 21;
   public static final int FUNCTION = 15;
   public static final int IF = 12;
@@ -28,17 +28,16 @@ public class sym {
   public static final int CONS = 25;
   public static final int LCURLY = 8;
   public static final int COMMA = 14;
-  public static final int TCREATE = 30;
+  public static final int TCREATE = 29;
   public static final int EOF = 0;
   public static final int DIV = 20;
   public static final int SEMICOL = 2;
   public static final int MINUS = 18;
-  public static final int PRINT = 29;
   public static final int error = 1;
-  public static final int TJOIN = 31;
+  public static final int TJOIN = 30;
   public static final int LET = 4;
   public static final int EQ = 5;
-  public static final int BOOL = 34;
+  public static final int BOOL = 33;
   public static final int EQEQ = 22;
   public static final int VAR = 3;
   public static final int UMINUS = 23;
@@ -73,7 +72,6 @@ public class sym {
   "CAR",
   "CDR",
   "NIL",
-  "PRINT",
   "TCREATE",
   "TJOIN",
   "IDENTIFIER",

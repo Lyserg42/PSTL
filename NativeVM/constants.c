@@ -43,7 +43,6 @@ const char *primitive_names[] = {
   "car",
   "cdr",
   "nil",
-  "print",
   "tcreate",
   "tjoin",
   "<unknown>"
