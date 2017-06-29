@@ -255,11 +255,11 @@ void do_th_create_prim(vm_t * vm, varray_t *stack){
 	// Puis on lui dis d'ignorer le reste du programme une fois revenu de la fonction
 	progthread->size = vm->frame->pc-4;
 
-printf("Program vm. Size : %d pc : %d\n",vm->program->size, vm->frame->pc);
+/*printf("Program vm. Size : %d pc : %d\n",vm->program->size, vm->frame->pc);
 bytecode_print(vm->program);
 printf("----------------------------\n");
 printf("Progthread. Size : %d\n",progthread->size);
-bytecode_print(progthread);
+bytecode_print(progthread);*/
 	
 	//Initialisation de la vm qui va exécuter le thread
 	vm_t * vmth = init_vm(progthread, vm->debug_vm, 0, DEFAULT_GC_FREQUENCY);
